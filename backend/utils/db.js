@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
-dotenv.config(); // Load variables from .env into process.env
+dotenv.config(); 
+// Load variables from .env into process.env
 
 import mongoose from "mongoose";
 
