@@ -1,7 +1,7 @@
 // import Company from '../model/company.model.js';
 import Company from '../model/company.model.js';
 import mongoose from 'mongoose';
-
+ 
 export const addCompany = async (req, res) => {
     try {
         const { companyName } = req.body; // assuming you expect these fields

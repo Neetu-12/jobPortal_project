@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-
+ 
 const isAuthontication = async (req, res, next) => {
     try {
         const cookieHeader = (req.headers.cookie)

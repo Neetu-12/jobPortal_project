@@ -34,17 +34,17 @@ const jobSchema = new mongoose.Schema({
     },
     // I need to check here becasue I have changed companyId to company for populate in job controller
     company: {
-        type: mongoose.Schema.Types.ObjectId, // MAybe geeting error
+        type: mongoose.Schema.Types.ObjectId, // MAybe geting error
         ref: "Company",
         required: true
     },
     created_by: {
-        type: mongoose.Schema.Types.ObjectId, // MAybe geeting error
+        type: mongoose.Schema.Types.ObjectId, // MAybe geting error
         ref: "User",
         required: true
     },
     applications: [{
-        type: mongoose.Schema.Types.ObjectId, // MAybe geeting error
+        type: mongoose.Schema.Types.ObjectId, // MAybe geting error
         ref: "Application",
     }]
 }, { timestamps: true });
