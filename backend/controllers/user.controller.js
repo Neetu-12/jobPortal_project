@@ -48,18 +48,18 @@ export const register = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-    try { 
-        
+    try {
+
         const { email, password, role } = req.body;
         // console.log(email, password, role );
-        
+
         if (!email || !password || !role) {
             return res.status(404).json({
                 message: "Email and password is wrong.",
                 success: false
             });
         };
-        
+
         let user = await User.findOne({ email });
 
         if (!user) {
@@ -88,7 +88,7 @@ export const login = async (req, res) => {
             userId: user._id.toString()
         };
         console.log(user._id.toString());
-        
+
         const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: '1d' });
 
         user = {
@@ -117,7 +117,7 @@ export const updateProfile = async (req, res) => {
 
         const { fullname, email, phoneNumber, profile } = req.body;
         console.log(req.body);
-        
+
         // let skillsArray;
         // if (skills) {
         //     skillsArray = skills.split(',');
@@ -133,7 +133,7 @@ export const updateProfile = async (req, res) => {
                 success: false
             });
         }
-        
+
         // updating data...
         if (fullname) {
             user.fullname = fullname
@@ -146,9 +146,9 @@ export const updateProfile = async (req, res) => {
         // if (bio) user.bio = bio
         // if (skills) user.skills = skillsArray
         // resume comes later here...
-        
+
         await user.save();
-        
+
         user = {
             _id: user._id,
             fullname: user.fullname,
@@ -165,7 +165,7 @@ export const updateProfile = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-          return res.status(500).json({
+        return res.status(500).json({
             message: "Authorization is failed.",
             success: false
         });
@@ -176,9 +176,9 @@ export const updateProfile = async (req, res) => {
 export const logOut = async (req, res) => {
     try {
         return res.status(200).cookie("token", "", {
-                httpOnly: true,
-                expires: new Date(0) // or use maxAge: 0
-            })
+            httpOnly: true,
+            expires: new Date(0) // or use maxAge: 0
+        })
             .json({
                 message: "Logged out successfully.",
                 success: true

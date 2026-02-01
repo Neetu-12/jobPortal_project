@@ -4,47 +4,54 @@ import { Label } from '@radix-ui/react-label';
 import { Input } from '../ui/input';
 import { RadioGroup } from '../ui/radio-group';
 import { Button } from '../ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [input, setInput] = useState({
-    fullname: "",
     email: "",
-    phoneNumber: "",
-    role: "",
-    file: ""
+    password: "",
+    role: ""
   });
 
-
-  const changeEventHandler = () => {
+const navigate = useNavigate();
+  const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
-  const changeFileHandler = () => {
-    setInput({ ...input, [e.target.name]: e.target.files?.[0] });
-  };
-
+  const submitHandler = (e) => {
+    e.preventDefault();
+    console.log(input,"input by me");
+    navigate("/");
+  }
 
 
   return (
     <div>
       <Navbar />
-      <div className='flex items-center justify-center max-w-7xl mx-auto'>
-        <form action="" className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
+      <div className='flex items-center justify-center max-w-  mx-auto'>
+        <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
           <h1 className='font-bold  text-xl mb-5'>Login</h1>
 
           <div className='my-2'>
             <Label>
               Email :
             </Label>
-            <Input type='email' placeholder='Enter your email' />
+            <Input type='email'
+              value={input.email}
+              name='email'
+              onChange={changeEventHandler}
+              placeholder='Enter your email' />
           </div>
 
           <div className='my-2'>
             <Label>
               password :
             </Label>
-            <Input type='password' placeholder='Enter your password' />
+            <Input type='password'
+              value={input.password}
+              name='password'
+              onChange={changeEventHandler}
+              placeholder='Enter your password' />
           </div>
 
           <div className='flex itemes-center justify-between'>
@@ -53,6 +60,8 @@ const Login = () => {
                 <Input type='radio'
                   name='role'
                   value='student'
+                  checked={input.role === 'student'}
+                  onChange={changeEventHandler}
                   className='cursor-pointer'
                 />
                 <Label htmlFor="r1">Student</Label>
@@ -61,6 +70,9 @@ const Login = () => {
                 <Input type='radio'
                   name='role'
                   value='recuiter'
+
+                  checked={input.role === 'recuiter'}
+                  onChange={changeEventHandler}
                   className='cursor-pointer'
                 />
                 <Label htmlFor="r2">Recuiter</Label>

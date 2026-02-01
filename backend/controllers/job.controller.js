@@ -68,7 +68,7 @@ export const postJob = async (req, res) => {
     }
 };
 
-// Need to check this apin -- Need to check this route......Need to understand what is happening here!!!!
+// Need to check this api n -- Need to check this route......Need to understand what is happening here!!!!
 export const getAllJob = async (req, res) => {
     try {
         const keyword = req.query.keyword || "";
@@ -83,7 +83,7 @@ export const getAllJob = async (req, res) => {
         const jobs = await Job.find(query).populate({
             path: "company"
         }).sort({ createAt: -1 });
-        console.log(jobs);
+        // console.log(jobs);
         if (!jobs) {
             return res.status(404).json({
                 message: "Jobs are not found.",
@@ -98,7 +98,7 @@ export const getAllJob = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
+        // console.log(error);
         return res.status(500).json({
             message: "Something went wrong.",
             success: false
@@ -110,7 +110,7 @@ export const getJonById = async (req, res) => {
     try {
         const jobId = req.params.id;
         const job = await Job.findById(jobId);
-        console.log(job);
+        // console.log(job);
 
         if (!job) {
             return res.status(404).json({
