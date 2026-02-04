@@ -5,6 +5,7 @@ import { Input } from '../ui/input';
 import { RadioGroup } from '../ui/radio-group';
 import { Button } from '../ui/button';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const Login = () => {
   const [input, setInput] = useState({
@@ -13,15 +14,30 @@ const Login = () => {
     role: ""
   });
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(input,"input by me");
-    navigate("/");
+    // console.log(input, "input login");
+    axios.post('http://localhost:8000/api/v1/user/login', input)
+      .then((result) => {
+        
+        if (result.data.message === "Welcome, you loggined successfully.") {
+          console.log(result.data.token, "token on login page...");
+          localStorage.setItem("token", result.data.token);
+          alert("Login successfully.");
+          navigate("/");
+        } else {
+          navigate("/signup");
+          alert("Something went wrong. Kindly check your data or register again.");
+        }
+
+      }).catch((err) => {
+        alert(err.result?.data?.message || "Something went wrong");
+      });
   }
 
 
@@ -80,7 +96,7 @@ const navigate = useNavigate();
             </RadioGroup>
 
           </div>
-          <Button type="submit" className="w-full my-4">Login</Button>
+          <Button type="submit" className="w-full my-4 cursor-pointer">Login</Button>
           <span className='text-sm'>Don't have an account? <Link to='/signup' className='text-blue-600'> Signup</Link> </span>
 
         </form>
