@@ -15,7 +15,7 @@ const Job = ({ job }) => {
         const timeDifference = currentTime - createdAt;
         return Math.floor(timeDifference / (1000 * 24 * 60 * 60));
     }
-    console.log(job,'job...................')
+    // console.log(job,'job...................')
     return (
         <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100'>
             <div className='flex items-center justify-between'>

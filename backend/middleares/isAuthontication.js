@@ -1,34 +1,26 @@
 import jwt from 'jsonwebtoken';
- 
+
 const isAuthontication = async (req, res, next) => {
     try {
-        const cookieHeader = (req.headers.cookie)
+        // Use req.cookies (provided by cookie-parser middleware in index.js)
+        // DO NOT use cookieHeader.split('=') — JWT tokens contain '=' chars (base64)
+        // which would silently break the token!
+        const token = req.cookies?.token;
 
-        // console.log(req.headers, "cookieHeader");
-        if (!cookieHeader) {
-            return res.status(401).json({
-                message: "No cookies found.",
-                success: false
-            });
-        }
-
-        let token = cookieHeader.split('=')[1];
-        
         if (!token) {
             return res.status(401).json({
-                message: "User not authontication.",
+                message: "User not authenticated. Please login.",
                 success: false
             });
         }
 
         const decode = jwt.verify(token, process.env.SECRET_KEY);
-        console.log(decode.userId);
 
         if (!decode) {
             return res.status(401).json({
-                message: "Invalid token",
+                message: "Invalid token.",
                 success: false
-            })
+            });
         };
 
         req.id = decode.userId;
