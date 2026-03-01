@@ -8,7 +8,7 @@ const connectDB = async ()=>{
     try {
         // console.log(process.env.MONGO_URI );
         // mongodb+srv://sahneetu754:MuvT05JcVO1y9548@cluster0.dbcsftc.mongodb.net/job_portal
-        await mongoose.connect("mongodb+srv://sahneetu754:MuvT05JcVO1y9548@cluster0.dbcsftc.mongodb.net/job_portal" || '');
+        await mongoose.connect(process.env.MONGO_URI);
         console.log("db is connected");
         
     } catch (error) {
