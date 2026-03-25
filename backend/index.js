@@ -31,6 +31,10 @@ app.use('/api/v1/company', companyRouter)
 app.use('/api/v1/jobPost', jobRouter)
 app.use('/api/v1/application', application)
 
+app.get('/', (req, res) => {
+    res.send('Welcome to Job Portal API');
+});
+
 app.listen(PORT, () => {
     connectDB();
     console.log(`Running at PORT ${PORT}`);
