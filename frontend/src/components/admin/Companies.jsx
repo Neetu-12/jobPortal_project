@@ -16,11 +16,12 @@ const Companies = () => {
     const [input, setInput] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { companies, searchCompanyByText } = useSelector(store => store.company);
+    // const { companies, searchCompanyByText } = useSelector(store => store.company);
+    const { companies = [], searchCompanyByText } = useSelector(store => store.company);
     const [filterCompany, setFilterCompany] = useState(companies);
 
     useEffect(() => {
-        const filteredCompany = companies.length >= 0 && companies.filter((company) => {
+        const filteredCompany = companies.filter((company) => {
             if (!searchCompanyByText) {
                 return true
             };
