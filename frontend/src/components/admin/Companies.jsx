@@ -25,7 +25,9 @@ const Companies = () => {
             if (!searchCompanyByText) {
                 return true
             };
-            return company?.name?.toLowerCase().includes(searchCompanyByText.toLowerCase());
+            return company?.companyName
+            ?.toLowerCase()
+            .includes(searchCompanyByText.toLowerCase());
 
         });
         setFilterCompany(filteredCompany);
@@ -62,8 +64,8 @@ const Companies = () => {
                                             <AvatarImage src={company.logo} />
                                         </Avatar>
                                     </TableCell>
-                                    <TableCell>{company.name}</TableCell>
-                                    <TableCell>{company.createdAt.split("T")[0]}</TableCell>
+                                    <TableCell>{company?.companyName }</TableCell>
+                                    <TableCell>{company?.createdAt?.split("T")[0]}</TableCell>
                                     <TableCell className="text-right cursor-pointer">
                                         <Popover>
                                             <PopoverTrigger><MoreHorizontal /></PopoverTrigger>
