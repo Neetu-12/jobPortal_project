@@ -24,13 +24,14 @@ const CompanyCreate = () => {
                 withCredentials: true
             });
             if (res?.data?.success) {
-                dispatch(setSingleCompany(res.data.company));
+                dispatch(setSingleCompany(res.data.data));
                 toast.success(res.data.message);
-                const companyId = res?.data?.company?._id;
+                const companyId = res?.data?.data?._id;
                 navigate(`/admin/companies/${companyId}`);
             }
         } catch (error) {
             console.log(error);
+            toast.error(error?.response?.data?.message || "Something went wrong.");
         }
     }
     return (
