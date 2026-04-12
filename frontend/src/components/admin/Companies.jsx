@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
@@ -16,22 +16,22 @@ const Companies = () => {
     const [input, setInput] = useState("");
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    // const { companies, searchCompanyByText } = useSelector(store => store.company);
     const { companies = [], searchCompanyByText } = useSelector(store => store.company);
-    const [filterCompany, setFilterCompany] = useState(companies);
 
+    // Dispatch search text to Redux whenever input changes
     useEffect(() => {
-        const filteredCompany = companies.filter((company) => {
-            if (!searchCompanyByText) {
-                return true
-            };
-            return company?.companyName
-            ?.toLowerCase()
-            .includes(searchCompanyByText.toLowerCase());
+        dispatch(setSearchCompanyByText(input));
+    }, [input]);
 
-        });
-        setFilterCompany(filteredCompany);
-    }, [companies, searchCompanyByText])
+    // Compute filtered list without extra state — avoids infinite update loops
+    const filterCompany = useMemo(() => {
+        if (!searchCompanyByText) return companies;
+        return companies.filter((company) =>
+            company?.companyName
+                ?.toLowerCase()
+                .includes(searchCompanyByText.toLowerCase())
+        );
+    }, [companies, searchCompanyByText]);
 
     return (
         <div>

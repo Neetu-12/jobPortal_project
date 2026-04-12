@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import Navbar from './shared/Navbar'
 import FilterCard from './FilterCard'
 import Job from './Job'
@@ -9,19 +9,15 @@ import { motion } from 'framer-motion';
 
 const Jobs = () => {
     const { allJobs, searchedQuery } = useSelector(store => store.job);
-    const [filterJobs, setFilterJobs] = useState(allJobs);
 
-    useEffect(() => {
-        if (searchedQuery) {
-            const filteredJobs = allJobs.filter((job) => {
-                return job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-                    job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-                    job.location.toLowerCase().includes(searchedQuery.toLowerCase())
-            })
-            setFilterJobs(filteredJobs)
-        } else {
-            setFilterJobs(allJobs)
-        }
+    // useMemo avoids infinite update loops caused by redux-persist producing new array references
+    const filterJobs = useMemo(() => {
+        if (!searchedQuery) return allJobs;
+        return allJobs.filter((job) =>
+            job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+            job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+            job.location.toLowerCase().includes(searchedQuery.toLowerCase())
+        );
     }, [allJobs, searchedQuery]);
 
     return (

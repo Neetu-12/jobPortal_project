@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Avatar, AvatarImage } from '../ui/avatar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
@@ -8,20 +8,16 @@ import { useNavigate } from 'react-router-dom'
 
 const CommonTable = () => {
     const { allAdminJobs, searchJobByText } = useSelector(store => store.job);
-
-    const [filterJobs, setFilterJobs] = useState(allAdminJobs);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const filteredJobs = allAdminJobs.length >= 0 && allAdminJobs.filter((job) => {
-            if (!searchJobByText) {
-                return true
-            };
-            return job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) || job?.company?.name.toLowerCase().includes(searchJobByText.toLowerCase());
-
-        });
-        setFilterJobs(filteredJobs);
-    }, [allAdminJobs, searchJobByText])
+    // useMemo avoids infinite update loops caused by redux-persist producing new array references
+    const filterJobs = useMemo(() => {
+        if (!searchJobByText) return allAdminJobs;
+        return allAdminJobs.filter((job) =>
+            job?.title?.toLowerCase().includes(searchJobByText.toLowerCase()) ||
+            job?.company?.companyName?.toLowerCase().includes(searchJobByText.toLowerCase())
+        );
+    }, [allAdminJobs, searchJobByText]);
     return (
         <div>
             <Table>
