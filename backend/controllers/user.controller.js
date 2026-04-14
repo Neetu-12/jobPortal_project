@@ -80,7 +80,7 @@ export const login = async (req, res) => {
         if (role !== user.role) {
             return res.status(400).json({
                 message: "Account does not exist with current role.",
-                success: true
+                success: false
             })
         };
 
@@ -100,7 +100,7 @@ export const login = async (req, res) => {
         }
 
         return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, secure: true, sameSite: 'None' }).json({
-            message: `Welcome, you loggined successfully.`,
+            message: `Welcome, you logged in successfully.`,
             user,
             success: true,
             token
@@ -155,7 +155,8 @@ export const updateProfile = async (req, res) => {
             fullname: user.fullname,
             email: user.email,
             phoneNumber: user.phoneNumber,
-            role: user.role
+            role: user.role,
+            profile: user.profile
         }
 
         return res.status(200).json({

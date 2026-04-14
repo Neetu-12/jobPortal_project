@@ -10,10 +10,12 @@ import { JOB_API_END_POINT } from '@/utils/constant'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
+import useGetAllCompanies from '@/hooks/useGetAllCompanies'
 
 const companyArray = [];
 
 const PostJob = () => {
+    useGetAllCompanies();
     const [input, setInput] = useState({
         title: "",
         description: "",
