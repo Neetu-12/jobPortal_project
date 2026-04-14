@@ -28,7 +28,7 @@ export const addCompany = async (req, res) => {
         res.status(201).json({
             message: "Company registered successfully.",
             success: true,
-            data: newCompany
+            company: newCompany
         });
 
     } catch (error) {
@@ -53,8 +53,8 @@ export const getCompany = async (req, res) => {
         }
 
         return res.status(200).json({
-            message: "Comapnies got succeefully.",
-            data: companies,
+            message: "Companies retrieved successfully.",
+            companies,
             success: true
         })
 

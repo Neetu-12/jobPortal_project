@@ -24,9 +24,9 @@ const CompanyCreate = () => {
                 withCredentials: true
             });
             if (res?.data?.success) {
-                dispatch(setSingleCompany(res.data.data));
+                dispatch(setSingleCompany(res.data.company));
                 toast.success(res.data.message);
-                const companyId = res?.data?.data?._id;
+                const companyId = res?.data?.company?._id;
                 navigate(`/admin/companies/${companyId}`);
             }
         } catch (error) {
