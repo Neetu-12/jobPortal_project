@@ -34,7 +34,7 @@ const PostJob = () => {
     };
 
     const selectChangeHandler = (value) => {
-        const selectedCompany = companies.find((company) => company.name.toLowerCase() === value);
+        const selectedCompany = companies.find((company) => company.companyName.toLowerCase() === value);
         setInput({ ...input, companyId: selectedCompany._id });
     };
 
@@ -156,7 +156,7 @@ const PostJob = () => {
                                             {
                                                 companies.map((company) => {
                                                     return (
-                                                        <SelectItem value={company?.name?.toLowerCase()}>{company.name}</SelectItem>
+                                                        <SelectItem key={company._id} value={company?.companyName?.toLowerCase()}>{company.companyName}</SelectItem>
                                                     )
                                                 })
                                             }
