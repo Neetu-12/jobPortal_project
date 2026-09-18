@@ -116,16 +116,10 @@ export const login = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
 
-        const { fullname, email, phoneNumber, profile } = req.body;
+        const { fullname, email, phoneNumber, bio, skills } = req.body;
         console.log(req.body);
 
-        // let skillsArray;
-        // if (skills) {
-        //     skillsArray = skills.split(',');
-        // }
-        const userId = req.id // getting from  middleware authontication...
-        // console.log(req.id ,',,,,');
-
+        const userId = req.id; 
         let user = await User.findById(userId);
 
         if (!user) {
@@ -136,16 +130,18 @@ export const updateProfile = async (req, res) => {
         }
 
         // updating data...
-        if (fullname) {
-            user.fullname = fullname
+        if (fullname) user.fullname = fullname;
+        if (email) user.email = email;
+        if (phoneNumber) user.phoneNumber = phoneNumber;
+        
+        // Handling profile fields (flat from FormData)
+        if (bio) user.profile.bio = bio;
+        if (skills) {
+            user.profile.skills = skills.split(",");
         }
-        if (profile) {
-            user.profile = profile
-        }
-        if (email) user.email = email
-        if (phoneNumber) user.phoneNumber = phoneNumber
-        // if (bio) user.bio = bio
-        // if (skills) user.skills = skillsArray
+        
+        // TODO: Handle file (resume) if req.file is present
+        // if (req.file) { ... }
         // resume comes later here...
 
         await user.save();
@@ -166,9 +162,10 @@ export const updateProfile = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
+        console.error("Update Profile Error:", error);
         return res.status(500).json({
-            message: "Authorization is failed.",
+            message: "An internal error occurred while updating the profile.",
+            error: error.message,
             success: false
         });
     };

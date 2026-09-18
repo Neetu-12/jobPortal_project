@@ -110,36 +110,42 @@ export const getCompanyById = async (req, res) => {
 
 export const updateCompany = async (req, res) => {
     try {
-
-        const { companyName, description, website } = req.body;
+        const { name, companyName, description, website, location } = req.body;
         const file = req.file;
-        // console.log(companyName, description, website);
         
-        // Sapace for cloudnary
+        // Handle field name mismatch: frontend sends 'name', backend model expects 'companyName'
+        const finalCompanyName = name || companyName;
 
-        const updateData = { companyName, description, website };
+        const updateData = { 
+            companyName: finalCompanyName, 
+            description, 
+            website, 
+            location 
+        };
 
-        const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true })
+        // TODO: Handle cloudnary file upload here if file is present
+        // if (file) { ... }
+
+        const company = await Company.findByIdAndUpdate(req.params.id, updateData, { new: true });
 
         if (!company) {
             return res.status(404).json({
-                message: "Company is not found by Id.",
-                company,
+                message: "Company not found.",
                 success: false
             });
         }
 
         return res.status(200).json({
-            message:"Updated details success fully.",
+            message: "Company information updated successfully.",
             company,
             success: true
-        })
+        });
 
     } catch (error) {
-        console.log(error);
-        return res.status(404).json({
-            message: "Company is not found by Id.",
-            error,
+        console.error("Update Company Error:", error);
+        return res.status(500).json({
+            message: "An internal error occurred while updating the company.",
+            error: error.message,
             success: false
         });
     }
